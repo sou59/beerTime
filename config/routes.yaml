@@ -1,0 +1,9 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+# config/routes.yaml
+
+main :
+  path:/
+  controller:App\Controller\MainController::index
+  
