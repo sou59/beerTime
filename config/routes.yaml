@@ -1,0 +1,26 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+# config/routes.yaml
+
+# main:
+#   path: /
+#   controller: App\Controller\MainController::main
+
+# event: 
+#   path: /list
+#   controller: App\Controller\EventController::list
+
+# show: 
+#   path: /show
+#   controller: App\Controller\EventController::show
+
+# create: 
+#   path: /create
+#   controller: App\Controller\EventController::create
+
+# join: 
+#   path: /join
+#   controller: App\Controller\EventController::join
+
+  
