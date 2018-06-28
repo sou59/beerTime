@@ -1,0 +1,59 @@
+{# templates/event.html.twig #}
+{% extends 'base.html.twig' %}
+
+   
+{% block body %}
+
+ 
+    {% include 'event/sidebar.html.twig' %}
+
+    <div class="container pt-5">
+
+        <h1>Liste des évènements</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Ville</th>
+                    <th scope="col">Country</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">A venir/En cours/Passé</th>
+                    <th scope="col">Voir l'évènement</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for event in events %}
+                <tr>
+                    <td>{{ event.id }}</td>
+                    <td>{{ event.name }}</td>
+                    <td>{{ event.city }}</td>
+                    <td>{{ event.country }}</td>
+                    <td>{{ event.start_at }}</td>
+                    <td>
+                    {% if (date(event.start_at) < date('now', 'Europe/Paris')) %}
+                        <p>Date passée</p>
+                    {% elseif (date(event.start_at) > date('now', 'Europe/Paris')) %}
+                        <p>Date à venir</p>
+                    {% else %} 
+                        <p>Hoy</p>
+                    {% endif %}
+                    </td>
+
+                    <td><a href="{{ path('event_show', { 'id':event.id }) }}">Voir le détail</a></td>
+                </tr>
+                {{ dump(event) }}
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+        <p><a href="{{ path('event_list') }}">Voir la liste des évènements</a></p>
+
+        {% block content %}{% endblock %}
+    <div class="container">
+{% endblock %}
+   
+
+    
