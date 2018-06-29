@@ -30,28 +30,51 @@
             <tbody>
                 <tr>
                     <td>{{ event.id }}</td>
-                    <td>{{ event.name }}</td>
+                    <td>{{ event.name }}
+                        
+                        {% if event.start_at > date()  %}
+                        <span class="event-status badge badge-success"> A venir</span>
+                        {% elseif event.end_at < date()  %}
+                         <span class="event-status badge badge-danger"> Passé</span>
+                        {% else %} 
+                        <span class="event-status badge badge-primary">    En cours </span>
+                        {% endif %}
+
+                        </span>
+                    </td>
                     <td>{{ event.address }}</td>
                     <td>{{ event.zip }}</td>
                     <td>{{ event.city }}</td>
                     <td>{{ event.country }}</td>
                     <td>{{ event.description }}</td>
                     <td>{{ event.capacity }}</td>
-                    <td>{{ event.start_at }}</td>
-                    <td>{{ event.end_at }}</td>
-                    <td>{{ event.price }}</td>
+                    <td>{{ event.start_at|date('j F Y à H\hi') }}
+                        
+                    </td>
+                    <td> 
+                        {% if (event.start_at|date('Ymd') != event.end_at|date('Ymd')) %}
+                         {{ event.end_at|date('j F Y à H\hi') }}
+                        {% else %}
+                          {{ event.end_at|date('H\hi') }}
+                        {% endif %}
+
+                    </td>
+                    <td>
+                        <span class="badge badge-success">{{ event.price  ? event.price ~ '€' : Gratuit }}</span>
+                        
+                    
+                    </td>
                     <td>{{ event.owner }}</td>
-                    <td>{{ event.poster }}</td>
-                    <td><a href="{{ path('event_join', { 'id':event.id }) }}"><button type="button" class="btn btn-success">Rejoindre l'évènement</button></a></td>
+                    <td class="poster" style="background-image: url('{{ event.poster }}')"</td>
+                    <td><a type="button" class="btn btn-success btn-block {% if event.end_at < date() %} disabled {% endif %}" href="{{ path('event_join', { 'id':event.id }) }}">Rejoindre l'évènement</a></td>
                 </tr>
             </tbody>
         </table>
-
-
-        <p><a href="{{ path('event_list') }}">Voir la liste des évènements</a></p>
-
-        {% block content %}{% endblock %}
     </div>
+    <div class="container">
+        <p><a href="{{ path('event_list') }}">Voir la liste des évènements</a></p>
+    </div>
+
 {% endblock %}
    
 

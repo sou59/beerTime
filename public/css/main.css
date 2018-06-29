@@ -31,6 +31,19 @@ body {
     margin-bottom: 60px;
 }
 
+.poster {
+    background-repeat: no-repeat;
+    min-height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+
+}
+
+td.poster {
+    height: 300%;
+}
+
 .footer {
     position: absolute;
     bottom: 0;

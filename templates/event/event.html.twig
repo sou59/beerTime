@@ -9,7 +9,6 @@
         <p class="bienvenue">Bienvenue aux amateurs de bières</p>
     </div>
 
-
     <div class="container pt-5">
 
         <h1>Liste des évènements</h1>
@@ -17,6 +16,7 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">Poster</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Ville</th>
                     <th scope="col">Country</th>
@@ -30,18 +30,19 @@
                 {% for event in events %}
                 <tr>
                     <td>{{ event.id }}</td>
+                    <td class="poster" style="background-image: url('{{ event.poster }}')"</td>
                     <td>{{ event.name }}</td>
                     <td>{{ event.city }}</td>
                     <td>{{ event.country }}</td>
                     <td>{{ event.start_at }}</td>
                     <td>
-                    {% if (date(event.start_at) < date('now', 'Europe/Paris')) %}
-                        <p>Date passée</p>
-                    {% elseif (date(event.start_at) > date('now', 'Europe/Paris')) %}
-                        <p>Date à venir</p>
-                    {% else %} 
-                        <p>Hoy</p>
-                    {% endif %}
+                       {% if event.start_at > date()  %}
+                        <span class="event-status badge badge-success"> A venir</span>
+                        {% elseif event.end_at < date()  %}
+                         <span class="event-status badge badge-danger"> Passé</span>
+                        {% else %} 
+                        <span class="event-status badge badge-primary">    En cours </span>
+                        {% endif %}
                     </td>
 
                     <td><a href="{{ path('event_show', { 'id':event.id }) }}">
