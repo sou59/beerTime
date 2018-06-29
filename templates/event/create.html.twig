@@ -1,0 +1,35 @@
+{# templates/create.html.twig #}
+{% extends 'base.html.twig' %}
+
+   
+{% block body %}
+
+
+    <div class="container pt-5">
+
+        <h1>Creer un évènement</h1>
+
+        <form>
+            <div class="form-group">
+              <label for="name">Nom de l'évènement</label>
+              <input type="name" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Enter le nom">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Example textarea</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="address">Nom de l'évènement</label>
+              <input type="address" class="form-control" id="address" aria-describedby="addressHelp" placeholder="Enter l'adresse">
+            </div>
+            <button type="submit" class="btn btn-primary">Ajouter l'évènement</button>
+        </form>
+
+        <div class="container pt-5">
+            <p><a href="{{ path('event_list') }}">Voir la liste des évènements</a></p>
+        </div>
+
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}
+   

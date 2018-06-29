@@ -4,8 +4,11 @@
    
 {% block body %}
 
- 
-    {% include 'event/sidebar.html.twig' %}
+    <div class="container pt-3">
+        <img class="imgtonneau" src="{{ asset('img/images.jpg') }}">
+        <p class="bienvenue">Bienvenue aux amateurs de bières</p>
+    </div>
+
 
     <div class="container pt-5">
 
@@ -41,9 +44,10 @@
                     {% endif %}
                     </td>
 
-                    <td><a href="{{ path('event_show', { 'id':event.id }) }}">Voir le détail</a></td>
+                    <td><a href="{{ path('event_show', { 'id':event.id }) }}">
+                    <button type="button" class="btn btn-primary">Voir le détail</button></a></td>
                 </tr>
-                {{ dump(event) }}
+                {# {{ dump(event) }} #}
                 {% endfor %}
             </tbody>
         </table>
@@ -52,7 +56,7 @@
         <p><a href="{{ path('event_list') }}">Voir la liste des évènements</a></p>
 
         {% block content %}{% endblock %}
-    <div class="container">
+    </div>
 {% endblock %}
    
 

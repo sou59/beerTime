@@ -5,8 +5,6 @@
 {% block body %}
 
 
-    {% include 'event/sidebar.html.twig' %}
-
     <div class="container pt-5">
 
         <h1>Evénements </h1>
@@ -44,7 +42,7 @@
                     <td>{{ event.price }}</td>
                     <td>{{ event.owner }}</td>
                     <td>{{ event.poster }}</td>
-                    <td><a href="{{ path('event_join', { 'id':event.id }) }}">Rejoindre l'évènement</a></td>
+                    <td><a href="{{ path('event_join', { 'id':event.id }) }}"><button type="button" class="btn btn-success">Rejoindre l'évènement</button></a></td>
                 </tr>
             </tbody>
         </table>
@@ -53,7 +51,7 @@
         <p><a href="{{ path('event_list') }}">Voir la liste des évènements</a></p>
 
         {% block content %}{% endblock %}
-    <div class="container">
+    </div>
 {% endblock %}
    
 
