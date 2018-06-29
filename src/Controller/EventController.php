@@ -62,7 +62,7 @@ class EventController extends Controller
     public function random(EventService $eventService )
     {
         // fonction idem que show et en plus on attend ici le même template puisque le template ne fait pas de traitement de données mais affiche juste un élément
-        $event = $eventService->getRandom($id);
+        $event = $eventService->getRandom();
         if($event != false) {
             return $this->render('event/show.html.twig', array(
                 'event'=> $event

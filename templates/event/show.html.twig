@@ -7,8 +7,52 @@
 
     <div class="container pt-5">
 
-        <h1>Evénements </h1>
-        <table class="table table-bordered">
+        <h2>
+            {{ event.name }}
+            {% if event.start_at > date() %}
+                <span class="badge badge-info ml-1">À venir</span>
+            {% elseif event.end_at < date() %}
+                <span class="badge badge-secondary ml-1">Passé</span>
+            {% else %}
+                <span class="badge badge-success ml-1">En cours</span>
+            {% endif %}
+        </h2>
+        <div class="row">
+            <div class="col">
+                <img class="img-fluid" src="{{ event.poster }}" alt="">
+    
+                <a class="btn btn-primary mt-2 btn-block {% if event.end_at < date() %}disabled{% endif %}"
+                    href="{{ path('event_join', { 'id': event.id }) }}">
+                    Rejoindre
+                </a>
+    
+            </div>
+            <div class="col">
+                <p>{{ event.description }}</p>
+                <address class="">
+                    {{ event.address }}<br>
+                    {{ event.zip }} {{ event.city }},
+                    {{ event.country }}
+                </address>
+                <p>Organisé par : {{ event.owner }}
+                <p>Nombre de participants maximum : {{ event.capacity }}</p>
+                <p>Début : {{ event.start_at|date('j F Y à H\\hi')}}</p>
+                <p>
+                    Fin :
+                {% if event.start_at|date('Ymd') != event.end_at|date('Ymd') %}
+                    {{ event.end_at|date('j F Y à H\\hi')}}
+                {% else %}
+                    {{ event.end_at|date('H\\hi')}}
+                {% endif %}
+                </p>
+                <p>
+                    <span class="badge badge-success">{{ event.price ? event.price ~ '€' : 'Gratuit' }}</span>
+                </p>
+            </div>
+        </div>
+
+
+        <!-- <table class="table table-bordered">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -48,12 +92,12 @@
                     <td>{{ event.country }}</td>
                     <td>{{ event.description }}</td>
                     <td>{{ event.capacity }}</td>
-                    <td>{{ event.start_at|date('j F Y à H\hi') }}
+                    <td>{{ event.start_at|date('j F Y à H:i:s') }}
                         
                     </td>
                     <td> 
                         {% if (event.start_at|date('Ymd') != event.end_at|date('Ymd')) %}
-                         {{ event.end_at|date('j F Y à H\hi') }}
+                         {{ event.end_at|date('j F Y à H:i:s') }}
                         {% else %}
                           {{ event.end_at|date('H\hi') }}
                         {% endif %}
@@ -69,7 +113,7 @@
                     <td><a type="button" class="btn btn-success btn-block {% if event.end_at < date() %} disabled {% endif %}" href="{{ path('event_join', { 'id':event.id }) }}">Rejoindre l'évènement</a></td>
                 </tr>
             </tbody>
-        </table>
+        </table> -->
     </div>
     <div class="container">
         <p><a href="{{ path('event_list') }}">Voir la liste des évènements</a></p>

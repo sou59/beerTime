@@ -4,10 +4,7 @@
    
 {% block body %}
 
-    <div class="container pt-3">
-        <img class="imgtonneau" src="{{ asset('img/images.jpg') }}">
-        <p class="bienvenue">Bienvenue aux amateurs de bières</p>
-    </div>
+    
 
     <div class="container pt-5">
 
@@ -30,18 +27,18 @@
                 {% for event in events %}
                 <tr>
                     <td>{{ event.id }}</td>
-                    <td class="poster" style="background-image: url('{{ event.poster }}')"</td>
+                    <td class="poster" style="background-image: url('{{ event.poster }}');height: 300px;"</td>
                     <td>{{ event.name }}</td>
                     <td>{{ event.city }}</td>
                     <td>{{ event.country }}</td>
-                    <td>{{ event.start_at }}</td>
+                    <td>{{ event.start_at|date('j F Y à H:i:s') }}</td>
                     <td>
-                       {% if event.start_at > date()  %}
-                        <span class="event-status badge badge-success"> A venir</span>
-                        {% elseif event.end_at < date()  %}
-                         <span class="event-status badge badge-danger"> Passé</span>
-                        {% else %} 
-                        <span class="event-status badge badge-primary">    En cours </span>
+                        {% if event.start_at > date() %}
+                            <span class="badge badge-info ml-1">À venir</span>
+                        {% elseif event.end_at < date() %}
+                            <span class="badge badge-secondary ml-1">Passé</span>
+                        {% else %}
+                            <span class="badge badge-success ml-1">En cours</span>
                         {% endif %}
                     </td>
 

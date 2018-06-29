@@ -21,7 +21,7 @@ class EventService {
                 'capacity' => "200 places",
                 'start_at' => new \DateTime('2018-07-10 06:20:30'), // Format DateTime et enlever date() des templates
                 'end_at' => new \DateTime('2018-07-20 07:30:30'),
-                'price' => "20 €",
+                'price' => "20",
                 'poster' => "https://madeinmarseille.net/actualites-marseille/2016/11/meilleur-bar-biere-artisanale-brasserie.jpg",
                 'owner' => "Theddy",
                 'voir' => 'Lien_id1'
@@ -37,7 +37,7 @@ class EventService {
                 'capacity' => "200 places",
                 'start_at' => new \DateTime('2018-05-10 06:20:30'),
                 'end_at' => new \DateTime('2018-06-03 07:30:30'),
-                'price' => "20 €",
+                'price' => "null",
                 'poster' => "https://www.aucomptoirdesvins.fr/wp-content/uploads/2018/02/meilleure-tireuse-a-biere.jpg",
                 'owner' => "Teddy",
                 'voir' => 'Lien_id1'
@@ -53,7 +53,7 @@ class EventService {
                 'capacity' => "200 places",
                 'start_at' => new \DateTime('2018-06-28 21:20:30'),
                 'end_at' => new \DateTime('2018-06-30 07:30:30'),
-                'price' => "20 €",
+                'price' => "50",
                 'poster' => "https://www.metro.ca/userfiles/image/recipes/Poulet-biere-4026.jpg",
                 'owner' => "Theddy",
                 'voir' => 'Lien_id1'
