@@ -54,9 +54,24 @@ class EventService {
                 'start_at' => new \DateTime('2018-06-28 21:20:30'),
                 'end_at' => new \DateTime('2018-06-30 07:30:30'),
                 'price' => "50",
-                'poster' => "https://www.metro.ca/userfiles/image/recipes/Poulet-biere-4026.jpg",
+                'poster' => "http://images-mds.staticskynet.be/NewsFolder/original/apero-leffen_20140506104538.jpg",
                 'owner' => "Theddy",
                 'voir' => 'Lien_id1'
+            ),
+            4 => array(
+                'id' => 4,
+                'name' => 'La grosse biture',
+                'description' => '3 jours de beuverie non stop.',
+                'address' => '62 avenue des Champs-Elysées',
+                'city' => 'Paris',
+                'zip' => '75100',
+                'capacity' => 15000,
+                'start_at' => new \DateTime('2018-07-04 19:00:00'),
+                'end_at' => new \DateTime('2018-07-25 10:00:00'),
+                'country' => 'FR',
+                'price' => 100,
+                'poster' => 'https://www.aperodujeudi.com/wp-content/uploads/2016/01/spa-biere-republique-tcheque.jpg',
+                'owner' => 'Webforce3',
             )
         );
 

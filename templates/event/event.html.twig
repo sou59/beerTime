@@ -4,57 +4,38 @@
    
 {% block body %}
 
-    
+<!-- <div class="container pt-2"> -->
+    <div class="card-columns">
 
-    <div class="container pt-5">
+        {% for event in events %}
+        
+            <div class="card">
+                <div class="card-poster card-img-top" style="background-image: url('{{ event.poster }}');">
+                    {% if event.start_at > date() %}
+                        <span class="badge badge-info ml-1">À venir</span>
+                    {% elseif event.end_at < date() %}
+                        <span class="badge badge-secondary ml-1">Passé</span>
+                    {% else %}
+                        <span class="badge badge-success ml-1">En cours</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <p class="card-text">{{ event.description }}</p>
+                    <p class="card-text"><a href="{{ path('event_show', { 'id': event.id }) }}"><small class="text-muted">Voir les détails</small></a></p>
+                </div>
+            </div>
+        
+            {% if loop.last %}
+    </div><!-- end card-columns -->
+            {% elseif loop.index % 3 == 0 %}
+            </div>
+            <div class="card-columns">
+            {% endif %}
+        {% endfor %}
 
-        <h1>Liste des évènements</h1>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Poster</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Ville</th>
-                    <th scope="col">Country</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">A venir/En cours/Passé</th>
-                    <th scope="col">Voir l'évènement</th>
-                </tr>
-            </thead>
-            <tbody>
+<!-- </div>     -->
 
-                {% for event in events %}
-                <tr>
-                    <td>{{ event.id }}</td>
-                    <td class="poster" style="background-image: url('{{ event.poster }}');height: 300px;"</td>
-                    <td>{{ event.name }}</td>
-                    <td>{{ event.city }}</td>
-                    <td>{{ event.country }}</td>
-                    <td>{{ event.start_at|date('j F Y à H:i:s') }}</td>
-                    <td>
-                        {% if event.start_at > date() %}
-                            <span class="badge badge-info ml-1">À venir</span>
-                        {% elseif event.end_at < date() %}
-                            <span class="badge badge-secondary ml-1">Passé</span>
-                        {% else %}
-                            <span class="badge badge-success ml-1">En cours</span>
-                        {% endif %}
-                    </td>
-
-                    <td><a href="{{ path('event_show', { 'id':event.id }) }}">
-                    <button type="button" class="btn btn-primary">Voir le détail</button></a></td>
-                </tr>
-                {# {{ dump(event) }} #}
-                {% endfor %}
-            </tbody>
-        </table>
-
-
-        <p><a href="{{ path('event_list') }}">Voir la liste des évènements</a></p>
-
-        {% block content %}{% endblock %}
-    </div>
 {% endblock %}
    
 

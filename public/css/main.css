@@ -1,3 +1,53 @@
+.card-columns {
+    width: 100%;
+
+}
+
+.card {
+    width: 33%;
+}
+
+.card-poster {
+    min-height: 100px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.card-body {
+    color: #111;
+    text-shadow: none;
+}
+.cover {
+    padding: 0 1.5rem;
+}
+
+.cover .btn-lg {
+padding: .75rem 1.25rem;
+font-weight: 700;
+}
+/*
+ * Globals
+ */
+
+/* Links */
+a,
+a:focus,
+a:hover {
+  color: #fff;
+}
+
+/* Custom default button */
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritance from `body` */
+  background-color: #fff;
+  border: .05rem solid #fff;
+}
+
 .container.liste {
     background-repeat: no-repeat;
     height: 500px;
@@ -31,36 +81,34 @@
 html {
     position: relative;
     min-height: 100%;
-  } 
-   body {
-    margin-bottom: 60px; /* Margin bottom by footer height */
-   } 
-  
-  .footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 60px; /* Set the fixed height of the footer here */
-    line-height: 60px; /* Vertically center the text there */
-    background-color: #2e2f9b;
-    margin-top: 40px;
-    color: white;
-  
-  }
+} 
 
-  .col-4.lien {
-    color: white;
-    text-align: center;
+body {
+margin-bottom: 60px; /* Margin bottom by footer height */
+} 
+  
+.footer {
+position: absolute;
+bottom: 0;
+width: 100%;
+height: 60px; /* Set the fixed height of the footer here */
+line-height: 60px; /* Vertically center the text there */
+background-color: #2e2f9b;
+margin-top: 40px;
+color: white;
+
+}
+
+.col-4.lien {
+color: white;
+text-align: center;
     
 }
 .col-4.lien > a {
     color: white;
 }
 
-
-
-
-.poster {
+/* .poster {
     background-repeat: no-repeat;
     height: 300%;
     width: 100%;
@@ -71,7 +119,7 @@ html {
 
 td.poster {
     height: 300%;
-}
+} */
 
 
 
