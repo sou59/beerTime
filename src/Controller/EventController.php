@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //pour le routing par annotations
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\EventService;
+use Symfony\Bundle\FrameworkBundle\Tests\Templating\Helper\RequestHelperTest;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\Event;
 
 
 class EventController extends Controller
@@ -28,7 +31,7 @@ class EventController extends Controller
     public function show( EventService $eventService, $id) 
     {
         $event = $eventService->getOne($id);
-        if($event != false) {
+        if(!empty($event)){
             return $this->render('event/show.html.twig', array(
                 'event'=> $event
             ));
@@ -40,13 +43,30 @@ class EventController extends Controller
     /**
       * @Route("/event", name = "event_list")
     */
-    public function list( EventService $eventService) 
+    public function list( EventService $eventService, Request $request) 
     {
+        // mis en paramètre  donc inutile $request = Request::createFromGlobals();
+
+        $search = $request->query->get('search');
+        
+        // Si request->get('search') est rempli
+        // alors return render 
+        if(!empty($search)) {
+            return $this->render('event/event.html.twig', array(
+                'events'=> $eventService->getByName($search),
+                'future' => $eventService->countFutureEvents(),
+            ));
+        }
+        
+        $sort = !empty($request->query->get('sort')) ? $request->query->get('sort') : 'id';     
+
         return $this->render('event/event.html.twig', array(
-            'events'=> $eventService->getAll()
-        ));
+            'events'=> $eventService->getAll($sort),
+            'future' => $eventService->countFutureEvents(),
+        ));   
     }
 
+          
     /**
       * @Route("/event/{id}/join", name = "event_join", requirements={"id"="\d+"})
     */
@@ -71,6 +91,7 @@ class EventController extends Controller
         return new Response("Cette page n\'éxiste pas", 404);
     }
 
-
+  
+  
 
 }

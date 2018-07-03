@@ -3,17 +3,29 @@
 
    
 {% block body %}
+<div class="container pt-2">
 
-<!-- <div class="container pt-2"> -->
+
+{% if events|length > 0 %}
+    <div class="row">
+        Il y a {{ future }} évènement à venir
+    </div>
+    <div class="btn-group-3">
+        Sort by : 
+        <a type="button" class="btn btn-primary btn-sm" href="{{ path('event_list', {'sort':'name' })  }}">Name</a>
+        <a type="button" class="btn btn-primary btn-sm" href="{{ path('event_list', {'sort':'start_at' }) }}">Date</a>
+    </div>
+
+    <div class="container pt-2">
     <div class="card-columns">
 
         {% for event in events %}
         
             <div class="card">
                 <div class="card-poster card-img-top" style="background-image: url('{{ event.poster }}');">
-                    {% if event.start_at > date() %}
+                    {% if event.startAt > date() %}
                         <span class="badge badge-info ml-1">À venir</span>
-                    {% elseif event.end_at < date() %}
+                    {% elseif event.endAt < date() %}
                         <span class="badge badge-secondary ml-1">Passé</span>
                     {% else %}
                         <span class="badge badge-success ml-1">En cours</span>
@@ -22,6 +34,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ event.name }}</h5>
                     <p class="card-text">{{ event.description }}</p>
+                    <p class="card-text">{{ event.place.name }}</p>
                     <p class="card-text"><a href="{{ path('event_show', { 'id': event.id }) }}"><small class="text-muted">Voir les détails</small></a></p>
                 </div>
             </div>
@@ -34,7 +47,13 @@
             {% endif %}
         {% endfor %}
 
-<!-- </div>     -->
+    {% else %}   
+        <div class="">
+            <p> Aucun évènement ne correspond à votre recherche.</p>
+        </div>
+    {% endif %}
+    </div>
+</div>
 
 {% endblock %}
    
