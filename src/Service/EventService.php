@@ -85,11 +85,11 @@ class EventService {
     public function __construct(EntityManagerInterface $entityManager){
         $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository(Event::class); // (ou App:Event)
-        // $this->entityManager on peut ecrire $entityManager car c'est au même endroit
+        // $this->entityManager on peut ecrire ici $entityManager car c'est au même endroit
     }
 
     public function getAll($sort = 'id') {
-        // SELECT ALL
+        // SELECT ALL avec un trie date et name
         return $this->repository->findBy(array(), array($sort => 'ASC'));
 
     }
@@ -127,12 +127,13 @@ class EventService {
         return false;        
     }
 
-    
+    // recherche sur le champ name
     public function getByName($name){
         // $searchName = $this->createQueryBuilder('m');
         return $this->repository->findByName($name);
     }
 
+    // affichera le nombre d'évènement futur (pas ceux qui ont déjà commencé)
     public function countFutureEvents() {
         return $this->repository->countFutureEvents();
     }

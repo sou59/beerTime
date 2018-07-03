@@ -48,6 +48,7 @@ class EventRepository extends ServiceEntityRepository
     }
     */
 
+    // select pour la recherche sur le name de l'event
     public function findByName($name)
     {
         return $this->createQueryBuilder('e')
@@ -58,6 +59,7 @@ class EventRepository extends ServiceEntityRepository
         ;
     }
 
+    // select avec date de l'évenement > à now
     public function countFutureEvents(): int 
     {
         return $this->createQueryBuilder('e')

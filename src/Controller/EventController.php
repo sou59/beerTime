@@ -14,6 +14,7 @@ use Symfony\Component\EventDispatcher\Event;
 
 class EventController extends Controller
 {
+    // Page création d'un évènement
     /**
       * @Route("/event/create", name = "event_create")
     */
@@ -21,13 +22,13 @@ class EventController extends Controller
     {
         return $this->render('event/create.html.twig');
     }
-
-    // on met /event/{id} au lieu de /event/show pour accéder à l'id de l'événement à montrer
-    // d+ signifie digit positif = l'id doit être un entier positif;
-
+   
+    // page voir le détail d'un évènement
     /**
       * @Route("/event/{id}", name = "event_show", requirements={"id"="\d+"})
     */
+     // on met /event/{id} au lieu de /event/show pour accéder à l'id de l'événement à montrer
+    // d+ signifie digit positif = l'id doit être un entier positif;
     public function show( EventService $eventService, $id) 
     {
         $event = $eventService->getOne($id);
@@ -39,13 +40,15 @@ class EventController extends Controller
         return new Response("Cette page n\'éxiste pas", 404);
     }
 
+    // Voir tous les évènements
     //pour l'url, on ne met pas /event/list mais juste /event 
     /**
       * @Route("/event", name = "event_list")
     */
     public function list( EventService $eventService, Request $request) 
     {
-        // mis en paramètre  donc inutile $request = Request::createFromGlobals();
+        // Request $request mis en paramètre donc inutile de noter :
+        // $request = Request::createFromGlobals();
 
         $search = $request->query->get('search');
         
@@ -66,7 +69,7 @@ class EventController extends Controller
         ));   
     }
 
-          
+    // Page rejoindre un évènement      
     /**
       * @Route("/event/{id}/join", name = "event_join", requirements={"id"="\d+"})
     */
@@ -75,13 +78,14 @@ class EventController extends Controller
         return $this->render('event/join.html.twig');
     }
 
+    //page need a beer
     /**
       * @Route("/nedd-a-beer", name = "event_random", requirements={"id"="\d+"})
     */
-
     public function random(EventService $eventService )
     {
-        // fonction idem que show et en plus on attend ici le même template puisque le template ne fait pas de traitement de données mais affiche juste un élément
+        // fonction idem que show et en plus on attend ici le même template
+        // puisque le template ne fait pas de traitement de données mais affiche juste un élément
         $event = $eventService->getRandom();
         if($event != false) {
             return $this->render('event/show.html.twig', array(
