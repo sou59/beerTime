@@ -5,6 +5,9 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -19,61 +22,77 @@ class Event
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Please, insert a name for this event.")
+     * @Assert\Length(min = 3)
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="text", length=255)
      */
     private $description;
 
     /**
+     * @Assert\NotBlank()
+     * 
      * @ORM\Column(type="integer", nullable=true)
      */
     private $capacity;
 
     /**
+     * @Assert\NotBlank() 
+     * @Assert\DateTime()
+     * @Assert\GreaterThan("today")
      * @ORM\Column(type="datetime")
      */
     private $start_at;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="datetime")
      */
     private $end_at;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="float", nullable=true)
      */
     private $price;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $poster;
-
-    /**
+     * @Assert\NotBlank()
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="events")
      */
     private $category;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="eventUser")
      * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="registUser")
      */
     private $registration;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="App\Entity\Place")
      * @ORM\JoinColumn(nullable=false)
      */
     private $place;
+
+    /**
+     * @Assert\NotBlank(message="Please, upload the poster as a jpg or png file.")
+     * @Assert\File(mimeTypes={ "image/jpeg", "image/png" })
+     * @ORM\Column(type="string", length=255)
+     */
+    private $poster;
 
     public function __construct()
     {
@@ -158,19 +177,6 @@ class Event
         return $this;
     }
 
-    public function getPoster(): ?string
-    {
-        return $this->poster;
-    }
-
-    public function setPoster(string $poster): self
-    {
-        $this->poster = $poster;
-
-        return $this;
-    }
-
-
 
     /**
      * @return Collection|Category[]
@@ -244,6 +250,18 @@ class Event
     public function setPlace(?Place $place): self
     {
         $this->place = $place;
+
+        return $this;
+    }
+
+    public function getPoster()
+    {
+        return $this->poster;
+    }
+
+    public function setPoster($poster)
+    {
+        $this->poster = $poster;
 
         return $this;
     }

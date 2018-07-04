@@ -1,11 +1,34 @@
 {# templates/create.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
    
 {% block body %}
 
+<div class="container pt-5">
+<h1>Créer un nouvel évènement</h1>
+    {{ form_start(form, {
+        'attr': { 'novalidate': 'novalidate' }
+    }) }}
 
-    <div class="container pt-5">
+        {% for label, message in app.flashes %}
+
+            {% for message in messages %}
+                <div class='flash'-{{ label }}>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {{ form_widget(form) }}
+        
+        {{ form_row(form.poster) }}
+        <button type="submit">Ajouter un évènement</button>
+        {# dump(form); #}
+    {{ form_end(form) }}
+
+</div>
+    {# <div class="container pt-5">
 
         <h1>Creer un évènement</h1>
 
@@ -30,6 +53,6 @@
         </div>
 
         {% block content %}{% endblock %}
-    </div>
+    </div> #}
 {% endblock %}
    
