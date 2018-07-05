@@ -328,7 +328,7 @@ class Event
     }
 
 
-    // callaback sans paranthese pas de paramètres
+    // callback sans paranthese pas de paramètres
     /**
      * @Assert\Callback
      */
