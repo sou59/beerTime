@@ -1,7 +1,7 @@
 {# templates/create.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{# {% form_theme form 'bootstrap_4_layout.html.twig' %} #}
    
 {% block body %}
 
@@ -11,19 +11,19 @@
         'attr': { 'novalidate': 'novalidate' }
     }) }}
 
-        {% for label, message in app.flashes %}
-
-            {% for message in messages %}
-                <div class='flash'-{{ label }}>
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
-
-        {{ form_widget(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.capacity) }}
+        {{ form_row(form.start_at) }}
+        {{ form_row(form.end_at) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.posterFile) }}
+        {{ form_row(form.posterURL) }}
+        {{ form_row(form.category) }}
+        {{ form_row(form.place) }}
         
-        {{ form_row(form.poster) }}
-       
+        
+      
         <button type="submit">Ajouter un évènement</button>
         
     {{ form_end(form) }}
@@ -35,7 +35,7 @@
 
         <form>
             <div class="form-group">
-              <label for="name">Nom de l'évènement</label>
+              <label for="name">{{ form_row(form.poster) }}</label>
               <input type="name" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Enter le nom">
             </div>
             <div class="form-group">

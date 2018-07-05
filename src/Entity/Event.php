@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
+ * @UniqueEntity("name")
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
 class Event
@@ -23,20 +25,33 @@ class Event
 
     /**
      * @Assert\NotBlank(message="Please, insert a name for this event.")
-     * @Assert\Length(min = 3)
+     * @Assert\Length(
+     *  min = 3,
+     *  minMessage = "Le nom de l'évènement doit comporter au moins {{ limit }} caractères"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Please, insert a name for this event.")
+     * @Assert\Length(
+     *  min = 10,
+     *  max = 500,
+     *  minMessage = "La description de l'évènement doit comporter au moins {{ limit }} caractères",
+     *  maxMessage = "La description de l'évènement ne doit pas excéder {{ limit }} caractères"
+     * )
      * @ORM\Column(type="text", length=255)
      */
     private $description;
 
     /**
      * @Assert\NotBlank()
-     * 
+     * @Assert\GreaterThan(0, message = "Nombre de participants maximun invalide")
+     * @Assert\Type(
+     *  type="integer",
+     *  message = "La value {{ value }} n'est pas valid"
+     * )
      * @ORM\Column(type="integer", nullable=true)
      */
     private $capacity;
@@ -44,25 +59,34 @@ class Event
     /**
      * @Assert\NotBlank() 
      * @Assert\DateTime()
-     * @Assert\GreaterThan("today")
+     * @Assert\GreaterThan("now", message = "Merci de rentrer une date valide")
      * @ORM\Column(type="datetime")
      */
     private $start_at;
 
     /**
      * @Assert\NotBlank()
+     * @Assert\DateTime()
+     * @Assert\Expression(
+     *   "this.getStartAt() < this.getEndAt()",
+     *    message="La date de fin ne peut pas se terminer avant le début"
+     * )
      * @ORM\Column(type="datetime")
      */
     private $end_at;
 
     /**
      * @Assert\NotBlank()
+     * @Assert\GreaterThan(0, message="Montant invalide")
+     * @Assert\Type(
+     *  type="float",
+     *  message = "La value {{ value }} n'est pas valid"
+     * )
      * @ORM\Column(type="float", nullable=true)
      */
     private $price;
 
     /**
-     * @Assert\NotBlank()
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="events")
      */
     private $category;
@@ -81,18 +105,31 @@ class Event
     private $registration;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Merci de rentrer une adresse valide")
      * @ORM\ManyToOne(targetEntity="App\Entity\Place")
      * @ORM\JoinColumn(nullable=false)
      */
     private $place;
 
     /**
-     * @Assert\NotBlank(message="Please, upload the poster as a jpg or png file.")
-     * @Assert\File(mimeTypes={ "image/jpeg", "image/png" })
      * @ORM\Column(type="string", length=255)
      */
     private $poster;
+
+    /**
+     * @Assert\Image(
+     *     maxSize = "2M",
+     *     maxSizeMessage = "Votre fichier ne doit pas dépasser {{  limit }}",
+     * )
+     */
+    //  mimeTypes="{ "image/jpeg", "image/png" }"
+    private $posterFile;
+
+    /**
+     * @Assert\Url()
+     */
+    private $posterUrl;
+
 
     public function __construct()
     {
@@ -141,24 +178,24 @@ class Event
         return $this;
     }
 
-    public function getStartAt(): ?\DateTimeInterface
+    public function getStartAt()
     {
         return $this->start_at;
     }
 
-    public function setStartAt(\DateTimeInterface $start_at): self
+    public function setStartAt($start_at)
     {
         $this->start_at = $start_at;
 
         return $this;
     }
 
-    public function getEndAt(): ?\DateTimeInterface
+    public function getEndAt()
     {
         return $this->end_at;
     }
 
-    public function setEndAt(\DateTimeInterface $end_at): self
+    public function setEndAt($end_at)
     {
         $this->end_at = $end_at;
 
@@ -266,5 +303,46 @@ class Event
         return $this;
     }
 
+    public function getPosterFile()
+    {
+        return $this->posterFile;
+    }
 
+    public function setPosterFile( $posterFile)
+    {
+        $this->posterFile = $posterFile;
+
+        return $this;
+    }
+
+    public function getPosterUrl()
+    {
+        return $this->posterUrl;
+    }
+
+    public function setPosterUrl( $posterUrl)
+    {
+        $this->posterUrl = $posterUrl;
+
+        return $this;
+    }
+
+
+    // callaback sans paranthese pas de paramètres
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        // vérification si posterUrl ou posterFile est renseigné
+        if( null === $this->posterFile && empty($this->posterURL)) {
+            $context->buildViolation('Veuillez envoyer une image ou indiquer l\'URL d\'une image')
+                ->atPath('posterFile')
+                ->addViolation();
+
+            $context->buildViolation('Veuillez envoyer l\'URL d\'une image ou importer une image')
+            ->atPath('posterURL')
+            ->addViolation();    
+        }
+    }
 }

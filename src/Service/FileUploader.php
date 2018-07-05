@@ -2,27 +2,28 @@
 namespace App\Service;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+ 
 
 class FileUploader
 {
-    private $targetDirectory;
+    private $directory;
 
-    public function __construct($targetDirectory)
+    public function __construct( ContainerInterface $container)
     {
-        $this->targetDirectory = $targetDirectory;
+        $this->directory = $container->getParameter('upload_directory');
     }
 
     public function upload(UploadedFile $file)
     {
+        // génération unique en md5
         $fileName = md5(uniqid()).'.'.$file->guessExtension();
 
-        $file->move($this->getTargetDirectory(), $fileName);
+        // déplacement vers le repertoir et son nom
+        $file->move($this->directory, $fileName);
 
+        // retourne le filename
         return $fileName;
     }
 
-    public function getTargetDirectory()
-    {
-        return $this->targetDirectory;
-    }
 }

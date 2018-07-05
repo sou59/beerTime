@@ -71,6 +71,16 @@ class EventRepository extends ServiceEntityRepository
          ->getSingleScalarResult() // renvoi un entier, sans le single renvoie un tableau 
          ;
     }
+
+    public function getRandom() {
+        $stmt = $this->createQueryBuilder('e');
+
+        $stmt->orderBy('RAND()');
+        $stmt->setMaxResults(1);
+
+        return $stmt->getQuery()->getOneOrNullResult();
+
+    }
     
 
 }

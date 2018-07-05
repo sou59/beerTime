@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\Event;
+use App\Repository\CategoryRepository;
 
 class EventService {
     private $events; 
@@ -109,22 +110,9 @@ class EventService {
     // choisir un event au hasard en cliquent sur "j'ai soif"
     public function getRandom()
     {
-        // copier le tableau dans un tableau temporaire pour ne pas toucher au tab d'origine
-        $events = $this->repository->findAll();
-        
-        // on fait le mélange des évènements
-        shuffle($events);
-        $now = new \DateTime();
-        // dump($events);die();
 
-        foreach ($events as $event) {
-            // $event est un objet de type Event
-            // l'attribut start_at est private, on appelle donc le getter
-            if ($event->getStartAt() <= $now && $event->getEndAt() > $now) {
-                return $event;
-            }
-        }
-        return false;        
+        return $this->repository->getRandom();        
+
     }
 
     // recherche sur le champ name
