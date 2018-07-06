@@ -20,6 +20,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Category;
 use App\Entity\Place;
 
+
 class FormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

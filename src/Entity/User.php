@@ -5,11 +5,19 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use App\Entity\Event;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterFace 
 {
     /**
      * @ORM\Id()
@@ -46,7 +54,7 @@ class User
     /**
      * @ORM\Column(type="array", nullable=true)
      */
-    private $role;
+    private $roles;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -69,6 +77,13 @@ class User
         $this->registUser = new ArrayCollection();
     }
 
+    public function eraseCredentials()
+    {}
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
 
     public function getId()
     {
@@ -135,14 +150,14 @@ class User
         return $this;
     }
 
-    public function getRole(): ?array
+    public function getRoles(): ?array
     {
-        return $this->role;
+        return $this->roles;
     }
 
-    public function setRole(?array $role): self
+    public function setRoles(?array $roles): self
     {
-        $this->role = $role;
+        $this->roles = $roles;
 
         return $this;
     }
@@ -218,4 +233,25 @@ class User
         return $this;
     }
 
+    public function isEqualTo(UserInterface $user)
+    {
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        if ($this->password !== $user->getPassword()) {
+            return false;
+        }
+
+        if ($this->salt !== $user->getSalt()) {
+            return false;
+        }
+
+        if ($this->username !== $user->getUsername()) {
+            return false;
+        }
+
+        return true;
+    }
+    
 }
