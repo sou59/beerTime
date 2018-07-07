@@ -9,6 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use App\Service\FileUploader;
+use App\Repository\EventRepository;
 
 /**
  * @UniqueEntity("name")
@@ -59,7 +61,6 @@ class Event
     /**
      * @Assert\NotBlank() 
      * @Assert\DateTime()
-     * @Assert\GreaterThan("now", message = "Merci de rentrer une date valide")
      * @ORM\Column(type="datetime")
      */
     private $start_at;
@@ -79,7 +80,7 @@ class Event
      * @Assert\NotBlank()
      * @Assert\GreaterThan(0, message="Montant invalide")
      * @Assert\Type(
-     *  type="float",
+     *  type="integer",
      *  message = "La value {{ value }} n'est pas valid"
      * )
      * @ORM\Column(type="float", nullable=true)
@@ -119,10 +120,9 @@ class Event
     /**
      * @Assert\Image(
      *     maxSize = "2M",
-     *     maxSizeMessage = "Votre fichier ne doit pas dépasser {{  limit }}",
+     *     maxSizeMessage = "Votre fichier ne doit pas dépasser {{  limit }}"
      * )
      */
-    //  mimeTypes="{ "image/jpeg", "image/png" }"
     private $posterFile;
 
     /**

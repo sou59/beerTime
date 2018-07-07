@@ -15,9 +15,11 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 
 
 /**
+ * @UniqueEntity(fields="email", message="Email already taken")
+ * @UniqueEntity(fields="username", message="Username already taken")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterFace 
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -27,11 +29,13 @@ class User implements UserInterFace
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $username;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $email;
@@ -42,6 +46,12 @@ class User implements UserInterFace
     private $password;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
+
+    /**
      * @ORM\Column(type="string", length=5, nullable=true)
      */
     private $zip;
@@ -50,11 +60,6 @@ class User implements UserInterFace
      * @ORM\Column(type="datetime")
      */
     private $birthdate;
-
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $roles;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -71,10 +76,16 @@ class User implements UserInterFace
      */
     private $registUser;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $roles;
+
     public function __construct()
     {
         $this->eventUser = new ArrayCollection();
         $this->registUser = new ArrayCollection();
+        $this->roles = array('ROLE_USER');
     }
 
     public function eraseCredentials()
@@ -102,6 +113,7 @@ class User implements UserInterFace
         return $this;
     }
 
+   
     public function getEmail(): ?string
     {
         return $this->email;
@@ -124,6 +136,16 @@ class User implements UserInterFace
         $this->password = $password;
 
         return $this;
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
     }
 
     public function getZip(): ?string
@@ -150,18 +172,7 @@ class User implements UserInterFace
         return $this;
     }
 
-    public function getRoles(): ?array
-    {
-        return $this->roles;
-    }
-
-    public function setRoles(?array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
+  
     public function getCountry(): ?string
     {
         return $this->country;
@@ -252,6 +263,22 @@ class User implements UserInterFace
         }
 
         return true;
+    }
+
+    
+
+
+    public function getRoles()
+    {
+        //return $this->roles;
+        return array('ROLE_USER');
+    }
+
+    public function setRoles(?array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
     
 }

@@ -2,25 +2,25 @@
 // on indique App à symfony qui redirige de lui même vers : src/Controller/EventController.php
 namespace App\Controller;
 
-
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //pour le routing par annotations
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\EventService;
 use Symfony\Bundle\FrameworkBundle\Tests\Templating\Helper\RequestHelperTest;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 // use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Form\FormInterface;
+use App\Service\EventService;
 use App\Form\FormType;
 use App\Entity\Event;
+use App\Entity\User;
 use App\Service\FileUploader;
+use App\Repository\EventRepository;
 
 
 class EventController extends Controller
 {
-    
-    
     // Page rejoindre un évènement      
     /**
       * @Route("/event/{id}/join", name = "event_join", requirements={"id"="\d+"})
@@ -34,7 +34,7 @@ class EventController extends Controller
     /**
       * @Route("/event/create", name = "event_create")
     */
-    public function create( Request $request, FileUploader $fileUploader )
+    public function create( Request $request, FileUploader $fileUploader, EventRepository $eventRepository )
     {
         $event = new Event();
         $form = $this->createForm(FormType::class, $event);
@@ -43,13 +43,13 @@ class EventController extends Controller
         $form->handleRequest($request);
         // vérification de la validation du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
-            if( !empty($event->posterFile()) ){
+            if( !empty($event->getPosterFile()) ){
                 // gérer l'upload des posters
                 $file = $event->getPoster();
                 //dump( $file );
                 $fileName = $fileUploader->upload($file);
-                // dump( $fileName );
-                // dump( $event );
+                dump( $fileName );
+                dump( $event );
             }else {
                 $fileName = $event->getPosterURL();
             }
@@ -132,7 +132,6 @@ class EventController extends Controller
         ));   
     }
 
-    
 
     //page need a beer
     /**
@@ -150,8 +149,5 @@ class EventController extends Controller
         }
         return new Response("Cette page n\'éxiste pas", 404);
     }
-
-    
-  
 
 }

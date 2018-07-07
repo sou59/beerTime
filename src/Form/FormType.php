@@ -13,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
-
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -70,11 +69,6 @@ class FormType extends AbstractType
                     'min' => 0,
                 ]
             ))
-
-            // adresse URL
-            // ->add('poster', TextType::class, array(
-            //     'label' => 'Brochure (PDF file)',
-            //     ))
 
             // fichier à uploader
             ->add('posterFile', FileType::class, array(

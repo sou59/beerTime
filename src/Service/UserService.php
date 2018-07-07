@@ -1,15 +1,15 @@
 <?php
 // src/Security/User/WebserviceUserProvider.php
-namespace App\Security\User;
+namespace App\Service;
 
-use App\Security\User\WebserviceUser;
+//use App\Security\User\User;
 use App\Entity\User;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
-class UserProvider implements UserProviderInterface
+class UserService implements UserProviderInterface
 {
     public function loadUserByUsername($username)
     {
@@ -22,7 +22,8 @@ class UserProvider implements UserProviderInterface
 
             // ...
 
-            return new User($username, $password, $salt, $roles);
+            return new User($username, $password, $salt); 
+            // ajouter $roles
         }
 
         throw new UsernameNotFoundException(
