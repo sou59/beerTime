@@ -2,6 +2,7 @@
 // on indique App à symfony qui redirige de lui même vers : src/Controller/EventController.php
 namespace App\Controller;
 
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //pour le routing par annotations
@@ -18,6 +19,17 @@ use App\Service\FileUploader;
 
 class EventController extends Controller
 {
+    
+    
+    // Page rejoindre un évènement      
+    /**
+      * @Route("/event/{id}/join", name = "event_join", requirements={"id"="\d+"})
+    */
+    public function join($id)
+    {
+        return $this->render('event/join.html.twig');
+    }
+   
     // Page création d'un évènement
     /**
       * @Route("/event/create", name = "event_create")
@@ -90,6 +102,7 @@ class EventController extends Controller
         return new Response("Cette page n\'éxiste pas", 404);
     }
 
+    
     // Voir tous les évènements
     //pour l'url, on ne met pas /event/list mais juste /event 
     /**
@@ -119,14 +132,7 @@ class EventController extends Controller
         ));   
     }
 
-    // Page rejoindre un évènement      
-    /**
-      * @Route("/event/{id}/join", name = "event_join", requirements={"id"="\d+"})
-    */
-    public function join($id)
-    {
-        return $this->render('event/join.html.twig');
-    }
+    
 
     //page need a beer
     /**
@@ -145,7 +151,7 @@ class EventController extends Controller
         return new Response("Cette page n\'éxiste pas", 404);
     }
 
-  
+    
   
 
 }

@@ -5,7 +5,7 @@
 {% block body %}
 
     <div class="container pt-5">
-    <h1>Page d'inscrition</h1>
+    <h1>Page d'inscription</h1>
         {{ form_start(form, {
             'attr': { 'novalidate': 'novalidate' }
         }) }}
@@ -13,11 +13,12 @@
             {{ form_row(form.username) }}
             {{ form_row(form.email) }}
             {{ form_row(form.password) }}
+            
             {{ form_row(form.zip) }}
             {{ form_row(form.birthdate) }}
             {{ form_row(form.country) }}
   
-      <button type="submit">Ajouter un évènement</button>
+      <button type="submit">S'enregistrer</button>
         
     {{ form_end(form) }}
 
@@ -48,30 +49,7 @@
 
         {% block content %}{% endblock %}
     </div> #}
-{% endblock %}
-   
 
-        {# <h1>Rejoindre un évènement</h1>
-
-        <form action="{{ path('login') }}" method="post">
-            <div class="form-group">
-              <label for="username">Nom d'utilisateur :</label>
-              <input type="username" class="form-control" id="email" placeholder="Enter username" name="_username" value="{{ lastUsername }}">
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Password" name="_password" >
-            </div>
-            <button type="submit" class="btn btn-primary">Rejoindre l'évènement</button>
-        </form>
-
-
-        <div class="container pt-5">
-            <p><a href="{{ path('event_list') }}">Voir la liste des évènements</a></p>
-        </div> #}
-
-        {% block content %}{% endblock %}
     </div>
 {% endblock %}
    
