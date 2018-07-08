@@ -34,7 +34,7 @@ class EventController extends Controller
     /**
       * @Route("/event/create", name = "event_create")
     */
-    public function create( Request $request, FileUploader $fileUploader, EventRepository $eventRepository )
+    public function create( Request $request, FileUploader $fileUploader, EventRepository $eventRepository)
     {
         $event = new Event();
         $form = $this->createForm(FormType::class, $event);
@@ -46,10 +46,10 @@ class EventController extends Controller
             if( !empty($event->getPosterFile()) ){
                 // gérer l'upload des posters
                 $file = $event->getPoster();
-                //dump( $file );
+               // dump( $file );exit();
                 $fileName = $fileUploader->upload($file);
-                dump( $fileName );
-                dump( $event );
+               // dump( $fileName );
+                //dump( $event );
             }else {
                 $fileName = $event->getPosterURL();
             }
