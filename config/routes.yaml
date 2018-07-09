@@ -6,7 +6,8 @@ create:
    path: /event/create
    controller: App App\Controller\EventController::create
    methods: [POST]
-#logout:
-#     path: /logout
+logout:
+    path: /logout
+    # invalidate_session: true
 
 

@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use App\Entity\Event;
 use Doctrine\ORM\EntityRepository;
@@ -43,13 +44,17 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Date de naissance :  ',
                 'widget' => 'single_text',
                 'attr' => [
-                    'min' => (new \DateTime())->format('Y-m-d'),
+                    'min' => (new \DateTime('-120years'))->format('Y-m-d'),
+                    'max'   =>  (new \DateTime('-18years'))->format('Y-m-d'),
+                    //'min' => (new \DateTime())->format('Y-m-d'),
                 ]
                 ))
 
            // ->add('roles')
             
-            ->add('country')
+            ->add('country', CountryType::class, array(
+                'label' => 'Pays',
+            ))
         ;
     }
 

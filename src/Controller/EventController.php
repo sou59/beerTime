@@ -17,6 +17,7 @@ use App\Entity\Event;
 use App\Entity\User;
 use App\Service\FileUploader;
 use App\Repository\EventRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 class EventController extends Controller
@@ -24,15 +25,34 @@ class EventController extends Controller
     // Page rejoindre un évènement      
     /**
       * @Route("/event/{id}/join", name = "event_join", requirements={"id"="\d+"})
+      * @IsGranted("ROLE_USER")
     */
-    public function join($id)
+    public function join(Event $event )
     {
-        return $this->render('event/join.html.twig');
+
+        $user = $this->getUser();
+        $event->addRegistration($user);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($event);
+
+        // envoie des modif à la bdd 
+        $em->flush();
+        
+        // message flash
+        $this->addFlash(
+        'success',
+        'Votre évènempent a bien été créer' );
+
+        return $this->redirectToRoute('event_show', array(
+            'id' => $event->getId()
+        ));
     }
    
     // Page création d'un évènement
     /**
       * @Route("/event/create", name = "event_create")
+      * @IsGranted("ROLE_USER")
     */
     public function create( Request $request, FileUploader $fileUploader, EventRepository $eventRepository)
     {
@@ -60,9 +80,8 @@ class EventController extends Controller
             // appel doctrine Récupération de l'entity manager
             $em = $this->getDoctrine()->getManager();
 
-            // temporaire user au hazard
-            $owner = $em->getRepository(User::class)->findOneBy([]);
-            $event->setOwner($owner);
+            // récupère le user connecté
+            $event->setOwner( $this->getUser() );
 
             // attache à doctrine l'objet (persistance de l'entité)
             // on ne le fait pas pour des modif sur un objet existant

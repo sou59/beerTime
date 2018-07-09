@@ -25,9 +25,11 @@ security:
             form_login:
                 login_path: user_login
                 check_path: user_login
+                default_target_path: event_list
             logout:
                 path: /logout
-                target: /    
+                target: / 
+                # invalidate_session: true  ->par defaut
 
             # activate different ways to authenticate
 

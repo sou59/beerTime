@@ -30,39 +30,48 @@ class User implements UserInterface
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=3)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $username;
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
+     * @ORM\Column(type="string", length=190, unique=true)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=190)
      */
     private $password;
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(max=4096)
+     * @Assert\Length(min=8, max=30)
      */
     private $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=5, nullable=true)
+     * @Assert\NotBlank()
      */
+    // ajouter une regex pour imposer un format lettre a ou b et chiffre
     private $zip;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
+     * @Assert\Range(
+     *      min = "-120 years",
+     *      max = "-18 years"
+     * )
      */
     private $birthdate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Country()
      */
     private $country;
 
@@ -85,7 +94,8 @@ class User implements UserInterface
     {
         $this->eventUser = new ArrayCollection();
         $this->registUser = new ArrayCollection();
-        $this->roles = array('ROLE_USER');
+        // ligne non obligatoire
+       // $this->roles = array('ROLE_USER');
     }
 
     public function eraseCredentials()
@@ -160,12 +170,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getBirthdate(): ?\DateTimeInterface
+    public function getBirthdate()
     {
         return $this->birthdate;
     }
 
-    public function setBirthdate(?\DateTimeInterface $birthdate): self
+    public function setBirthdate($birthdate)
     {
         $this->birthdate = $birthdate;
 

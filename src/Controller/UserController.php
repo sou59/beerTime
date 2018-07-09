@@ -26,20 +26,28 @@ class UserController extends Controller
     /**
       * @Route("/user", name = "user_login")
     */
-    public function login(Request $request, AuthenticationUtils $authenticationUtils)
+    public function login(AuthenticationUtils $authenticationUtils)
     {
         // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
+       // $error = $authenticationUtils->getLastAuthenticationError();
 
         // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+       // $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('user/login.html.twig', array(
-            'lastUsername' => $lastUsername,
-            'error'         => $error,
+            'lastUsername' => $authenticationUtils->getLastUsername(),
+            'error'         => $authenticationUtils->getLastAuthenticationError(),
         ));
         // return $this->render('event/login.html.twig');
     }
+
+    // /**
+    //  * @Route("/logout", name="logout")
+    //  */
+    // public function logout(): void
+    // {
+    //     throw new \Exception('This should never be reached!');
+    // } Inutile ici car gérer pa securite.yaml et routes.yaml
 
     // S'inscrire      
     /**
@@ -58,6 +66,9 @@ class UserController extends Controller
             // Encode the password (you could also do this via Doctrine listener)
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
+
+            $user->setRoles(array('ROLE-USER', 'ROLE_ADMIN'));
+
             // sauvegarder l'entité
             // appel doctrine Récupération de l'entity manager
             $em = $this->getDoctrine()->getManager();
@@ -81,9 +92,6 @@ class UserController extends Controller
          return $this->render('user/registration.html.twig', array(
              'form' =>$form->createView()
          ));
- 
-
-
     }
 
 }
