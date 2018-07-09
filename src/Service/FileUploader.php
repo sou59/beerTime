@@ -25,7 +25,7 @@ class FileUploader
         $fileName = md5(uniqid()).'.'.$file->guessExtension();
 
         // déplacement vers le repertoir et son nom
-        $file->move($this->getDirectory, $fileName);
+        $file->move($this->getDirectory(), $fileName);
 
         // retourne le filename
         return $fileName;

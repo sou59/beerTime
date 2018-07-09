@@ -46,7 +46,7 @@ class FormType extends AbstractType
 
             ))
 
-            ->add('start_at', null, array(
+            ->add('start_at', DateTimeType::class, array(
                 'label' => 'Date de début :  ',
                 'widget' => 'single_text',
                 'attr' => [

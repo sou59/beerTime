@@ -45,7 +45,7 @@ class EventController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if( !empty($event->getPosterFile()) ){
                 // gérer l'upload des posters
-                $file = $event->getPoster();
+                $file = $event->getPosterFile();
                // dump( $file );exit();
                 $fileName = $fileUploader->upload($file);
                // dump( $fileName );
